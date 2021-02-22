@@ -1,0 +1,23 @@
+{
+  "name": "pr-ctica-backend",
+  "version": "1.0.0",
+  "description": "Práctica de Backend para la clase de Web",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luishdezh/Pr-ctica-Backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/luishdezh/Pr-ctica-Backend/issues"
+  },
+  "homepage": "https://github.com/luishdezh/Pr-ctica-Backend#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.7"
+  }
+}
