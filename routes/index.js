@@ -19,16 +19,58 @@ for (let i = 0; i< 100; i++) {
   animals.push(data[i]);
 }
 
-router.get('/',  function(_, res) {
-    res.send(animals);
-});
+router.get('/', async function(_, res) {
 
+    const animalsPromises = animals.map(() => {
+        return new Promise((resolve, reject) => {
+          axios.get('https://api.thecatapi.com/v1/images/search')
+          .then(function({data}) {
+            const [cat] = data;
+            const {url} = cat;
+            resolve(url);
+          }).catch(function(error) {
+            reject(error);
+          });
+        });
+      });
+
+    Promise.all(animalsPromises)
+        .then(function(urls) {
+            const animalsWithImage = animals.map((animal, index) => ({...animal, image: urls[index]}));
+            res.render('index', { animalsWithImage });
+        })
+    .catch(function(errors) {
+        res.send(`${errors}`)
+    });
+});
 
 router.get('/:id', (req, res) => {
-    const {id} = req.params;
-    res.send(animals.find(animal => animal.id == id));
+    var {id} = req.params;
+    const {url} = req.query;
+    const animal = animals.find(animal => animal.id == id);
+    const {
+        animalname,
+        breedname,
+        basecolour,
+        speciesname,
+        animalage,
+        owner} = animal;
+    res.render('animal',{
+        image:url,
+        id,
+        animalname,
+        breedname,
+        basecolour,
+        speciesname,
+        animalage,
+        owner});
 });
 
+router.get('/adopt/:id', (req, res) => {
+    const {id} = req.params;
+    const animal = animals.find(animal => animal.id == id);
+    res.render('adopt', {animalname} = animal);
+});
 
 router.post('/',jsonParser, (req, res) => {
     const { 
