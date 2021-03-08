@@ -19,7 +19,8 @@ for (let i = 0; i< 100; i++) {
   animals.push(data[i]);
 }
 
-router.get('/', async function(_, res) {
+router.get('/', async function(req, res) {
+    console.log(req.user);
 
     const animalsPromises = animals.map(() => {
         return new Promise((resolve, reject) => {
